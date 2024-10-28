@@ -1,5 +1,5 @@
 {
-  "name": "xnode-nextjs-template",
+  "name": "xnode-nextjs-blog-1",
   "version": "1.0.0",
   "scripts": {
     "dev": "next dev",

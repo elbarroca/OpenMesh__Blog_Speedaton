@@ -5,12 +5,12 @@
   ...
 }:
 let
-  cfg = config.services.xnode-nextjs-template;
-  xnode-nextjs-template = pkgs.callPackage ./package.nix { };
+  cfg = config.services.xnode-nextjs-blog-1;
+  xnode-nextjs-blog-1 = pkgs.callPackage ./package.nix { };
 in
 {
   options = {
-    services.xnode-nextjs-template = {
+    services.xnode-nextjs-blog-1 = {
       enable = lib.mkEnableOption "Enable the nextjs app";
 
       hostname = lib.mkOption {
@@ -42,7 +42,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    systemd.services.xnode-nextjs-template = {
+    systemd.services.xnode-nextjs-blog-1 = {
       wantedBy = [ "multi-user.target" ];
       description = "Nextjs App.";
       after = [ "network.target" ];
@@ -51,7 +51,7 @@ in
         PORT = toString cfg.port;
       };
       serviceConfig = {
-        ExecStart = "${lib.getExe xnode-nextjs-template}";
+        ExecStart = "${lib.getExe xnode-nextjs-blog-1}";
         DynamicUser = true;
         CacheDirectory = "nextjs-app";
       };
