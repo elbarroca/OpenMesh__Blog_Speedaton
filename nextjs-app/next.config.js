@@ -59,7 +59,7 @@ const basePath = process.env.BASE_PATH || undefined
 const unoptimized = process.env.UNOPTIMIZED ? true : undefined
 
 /**
- * OpenMesh__Blog_Speedaton Configuration
+ * openmesh-blog-SC24 Configuration
  * @type {import('next').NextConfig}
  **/
 const nextConfig = {

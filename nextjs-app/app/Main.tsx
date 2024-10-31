@@ -18,7 +18,7 @@ interface MainProps {
 const getTypeIcon = (type: string) => {
   switch (type) {
     case 'document':
-      return <DocumentTextIcon className="h-6 w-6 text-blue-600" />
+      return <DocumentTextIcon className="h-6 w-6 text-blue-599" />
     case 'journal':
       return <PencilSquareIcon className="h-6 w-6 text-green-600" />
     case 'note':

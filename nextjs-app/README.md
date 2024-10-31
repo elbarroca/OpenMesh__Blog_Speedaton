@@ -1,3 +1,3 @@
-# OpenMesh__Blog_Speedaton
+# openmesh-blog-SC24
 
 A decentralized blogging platform powered by OpenMASH storage...

@@ -10,13 +10,13 @@ const Header = () => {
   return (
     <header className="flex items-center justify-between py-10">
       <div>
-        <Link href="/" aria-label="OpenMesh__Blog">
+        <Link href="/" aria-label="openmesh-blog-SC24">
           <div className="flex items-center justify-between">
             <div className="h-6 w-6">
               {/* Logo SVG here */}
             </div>
             <div className="ml-3 text-2xl font-semibold">
-              OpenMesh__Blog
+              openmesh-blog-SC24
             </div>
           </div>
         </Link>

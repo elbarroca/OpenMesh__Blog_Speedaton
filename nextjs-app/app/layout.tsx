@@ -6,7 +6,7 @@ import Header from '@/components/Header'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'OpenMesh__Blog_Speedaton',
+  title: 'openmesh-blog-SC24',
   description: 'A decentralized platform for your notes, journals, and documents powered by OpenMASH',
 }
 
