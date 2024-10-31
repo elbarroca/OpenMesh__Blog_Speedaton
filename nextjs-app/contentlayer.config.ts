@@ -3,7 +3,7 @@ import path from 'path'
 
 export const Entry = defineDocumentType(() => ({
   name: 'Entry',
-  filePathPattern: 'entries/**/*.{md,mdx}',
+  filePathPattern: '**/*.{md,mdx}',
   contentType: 'mdx',
   fields: {
     title: { type: 'string', required: true },
@@ -31,7 +31,10 @@ export const Entry = defineDocumentType(() => ({
 }))
 
 export default makeSource({
-  contentDirPath: 'data',
+  contentDirPath: 'content',
   documentTypes: [Entry],
   disableImportAliasWarning: true,
+  onSuccess: async (importData) => {
+    console.log('Content updated successfully')
+  },
 })

@@ -3,7 +3,7 @@ export interface Entry {
   title: string
   content: string
   type: 'note' | 'journal' | 'document'
-  tags?: string[]
+  tags: string[]
   createdAt: string
 }
 

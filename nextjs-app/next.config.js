@@ -93,6 +93,8 @@ const nextConfig = {
 
     return config
   },
+  output: 'standalone',
+  revalidate: 1,
 }
 
 // Only add contentlayer if it's installed

@@ -63,16 +63,11 @@ const WelcomeSection = () => (
   </div>
 )
 
-const Main = ({ entries: initialEntries = [] }: MainProps) => {
+const Main = ({ entries = [] }: MainProps) => {
   const [searchTerm, setSearchTerm] = useState('')
-  const [entries, setEntries] = useState<Entry[]>(initialEntries)
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    const storedEntries = localStorage.getItem('entries')
-    if (storedEntries) {
-      setEntries(JSON.parse(storedEntries))
-    }
     setIsLoading(false)
   }, [])
 
@@ -89,15 +84,13 @@ const Main = ({ entries: initialEntries = [] }: MainProps) => {
       const type = entry.type.toLowerCase()
       if (!acc[type]) acc[type] = []
       acc[type].push(entry)
+      // Sort entries by date, newest first
+      acc[type].sort((a, b) => 
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      )
       return acc
     }, {})
   }, [filteredEntries])
-
-  useEffect(() => {
-    if (entries.length > 0) {
-      localStorage.setItem('entries', JSON.stringify(entries))
-    }
-  }, [entries])
 
   if (isLoading) {
     return <div>Loading...</div>
