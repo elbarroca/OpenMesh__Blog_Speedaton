@@ -15,7 +15,6 @@ pkgs.buildNpmPackage {
 
   buildInputs = with pkgs; [
     nodePackages.node-gyp
-    nodePackages.cross-env
     python3
   ];
 
@@ -28,13 +27,15 @@ pkgs.buildNpmPackage {
     export npm_config_cache=$(mktemp -d)
     export npm_config_offline=false
     export npm_config_only=false
-    export PATH="${pkgs.nodePackages.cross-env}/bin:$PATH"
   '';
 
   buildPhase = ''
     runHook preBuild
     export HOME=$(mktemp -d)
-    npm run build
+    export INIT_CWD=$PWD
+    export PATH="$PWD/node_modules/.bin:$PATH"
+    npm install
+    ./node_modules/.bin/next build
     runHook postBuild
   '';
 
