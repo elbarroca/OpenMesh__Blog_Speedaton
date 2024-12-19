@@ -1,4 +1,4 @@
-import { allBlogs } from 'contentlayer/generated'
+import { allBlogs } from '@/.contentlayer/generated/Blog/_index.mjs'
 import { Entry } from '@/types'
 
 export const convertBlogsToEntries = (): Entry[] => {

@@ -1,10 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Entry } from '@/types'
 
-export default function NewEntryPage() {
+function NewEntryForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const entryType = searchParams.get('type') || 'note'
@@ -27,7 +27,7 @@ export default function NewEntryPage() {
         id: `user-${Date.now()}`, // Add 'user-' prefix
         title: formData.title,
         content: formData.content,
-        type: formData.entryType,
+        type: formData.entryType as 'note' | 'journal' | 'document',
         tags: formData.tags.split(',').map(tag => tag.trim()).filter(Boolean),
         createdAt: new Date().toISOString(),
       }
@@ -128,5 +128,13 @@ export default function NewEntryPage() {
         </form>
       </div>
     </div>
+  )
+}
+
+export default function NewEntryPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <NewEntryForm />
+    </Suspense>
   )
 } 

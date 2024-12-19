@@ -38,7 +38,7 @@ const WelcomeSection = () => (
       Imagine it as your personal Notion, but with full data ownership.
     </p>
     <div className="space-y-3 rounded-lg bg-white/10 p-6 backdrop-blur-sm ring-1 ring-white/20">
-      <h2 className="text-lg font-semibold">Here's how it works:</h2>
+      <h2 className="text-lg font-semibold">Here&apos;s how it works:</h2>
       <ul className="space-y-3">
         <li className="flex items-center space-x-3">
           <span className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-500/70 text-sm font-bold shadow-inner ring-1 ring-white/20">1</span>

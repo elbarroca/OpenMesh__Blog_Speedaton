@@ -4,11 +4,35 @@ pkgs.buildNpmPackage {
   version = "1.0.0";
   src = ../nextjs-app;
 
-  npmDepsHash = lib.fakeHash;
+  npmDepsHash = "sha256-w+SvcqE3QlwcF4y1v5I9LZbIqNhl4+1PMnIr+kxVEB8=";
 
-  npmFlags = [ "--legacy-peer-deps" ];
-  makeCacheWritable = true;
+  # Environment variables
   NODE_OPTIONS = "--openssl-legacy-provider";
+  NODE_TLS_REJECT_UNAUTHORIZED = "0";  # Only for development
+  
+  # Build configuration
+  npmFlags = [ "--legacy-peer-deps" "--prefer-offline" "--no-audit" ];
+  makeCacheWritable = true;
+
+  buildInputs = with pkgs; [
+    nodePackages.node-gyp
+    nodePackages.cross-env
+    python3
+  ];
+
+  postPatch = ''
+    export HOME=$(mktemp -d)
+    export npm_config_cache=$(mktemp -d)
+    export npm_config_offline=false
+    export npm_config_only=false
+    export PATH="${pkgs.nodePackages.cross-env}/bin:$PATH"
+    export SSL_CERT_FILE=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt
+  '';
+
+  preBuild = ''
+    export npm_config_cache=$(mktemp -d)
+    npm config set cache $npm_config_cache
+  '';
 
   postBuild = ''
     # Add a shebang to the server js file, then patch the shebang to use a
@@ -34,7 +58,9 @@ pkgs.buildNpmPackage {
 
     makeWrapper $out/share/homepage/server.js $out/bin/ricardo_openmesh \
       --set-default PORT 3000 \
-      --set-default HOSTNAME 0.0.0.0
+      --set-default HOSTNAME 0.0.0.0 \
+      --set NODE_TLS_REJECT_UNAUTHORIZED 0 \
+      --set SSL_CERT_FILE ${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt
 
     runHook postInstall
   '';

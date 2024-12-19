@@ -21,10 +21,10 @@ export default function Projects() {
             {projectsData.map((d) => (
               <Card
                 key={d.title}
-                title={d.title}
-                description={d.description}
-                imgSrc={d.imgSrc}
-                href={d.href}
+                title={d.title || ''}
+                description={d.description || ''}
+                imgSrc={d.imgSrc || ''}
+                href={d.href || ''}
               />
             ))}
           </div>

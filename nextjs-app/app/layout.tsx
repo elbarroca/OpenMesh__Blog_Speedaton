@@ -1,14 +1,9 @@
 import './globals.css'
 import { ThemeProviders } from './theme-providers'
-import { Inter } from 'next/font/google'
 import Header from '@/components/Header'
+import { metadata as siteMetadata } from './metadata'
 
-const inter = Inter({ subsets: ['latin'] })
-
-export const metadata = {
-  title: 'openmesh-blog-SC24',
-  description: 'A decentralized platform for your notes, journals, and documents powered by OpenMASH',
-}
+export const metadata = siteMetadata
 
 export default function RootLayout({
   children,
@@ -17,7 +12,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} bg-white text-black antialiased dark:bg-gray-950 dark:text-white`}>
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+          integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV"
+          crossOrigin="anonymous"
+        />
+      </head>
+      <body className="bg-white text-black antialiased font-sans dark:bg-gray-950 dark:text-white">
         <ThemeProviders>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <Header />
