@@ -1,10 +1,10 @@
-{ pkgs }:
+{ pkgs, lib }:
 pkgs.buildNpmPackage {
-  pname = "xnode-nextjs-template";
+  pname = "openmesh-blog-sc24";
   version = "1.0.0";
   src = ../nextjs-app;
 
-  npmDepsHash = "sha256-w+SvcqE3QlwcF4y1v5I9LZbIqNhl4+1PMnIr+kxVEB8=";
+  npmDepsHash = "sha256-uuZjFl5ou2LaYpX9mJmmJu5W0/AXXgwglH+zvbCiILs=";
 
   # Environment variables
   NODE_OPTIONS = "--openssl-legacy-provider --max-old-space-size=4096";
