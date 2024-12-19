@@ -8,10 +8,9 @@ pkgs.buildNpmPackage {
 
   # Environment variables
   NODE_OPTIONS = "--openssl-legacy-provider";
-  NODE_TLS_REJECT_UNAUTHORIZED = "0";  # Only for development
   
   # Build configuration
-  npmFlags = [ "--legacy-peer-deps" "--prefer-offline" "--no-audit" ];
+  npmFlags = [ "--legacy-peer-deps" ];
   makeCacheWritable = true;
 
   buildInputs = with pkgs; [
@@ -20,47 +19,39 @@ pkgs.buildNpmPackage {
     python3
   ];
 
+  nativeBuildInputs = with pkgs; [
+    nodejs_20
+  ];
+
   postPatch = ''
     export HOME=$(mktemp -d)
     export npm_config_cache=$(mktemp -d)
     export npm_config_offline=false
     export npm_config_only=false
     export PATH="${pkgs.nodePackages.cross-env}/bin:$PATH"
-    export SSL_CERT_FILE=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt
   '';
 
-  preBuild = ''
-    export npm_config_cache=$(mktemp -d)
-    npm config set cache $npm_config_cache
-  '';
-
-  postBuild = ''
-    # Add a shebang to the server js file, then patch the shebang to use a
-    # nixpkgs nodes binary
-    sed -i '1s|^|#!/usr/bin/env node\n|' .next/standalone/server.js
-    patchShebangs .next/standalone/server.js
+  buildPhase = ''
+    runHook preBuild
+    export HOME=$(mktemp -d)
+    npm run build
+    runHook postBuild
   '';
 
   installPhase = ''
     runHook preInstall
 
     mkdir -p $out/{share,bin}
-
     cp -r .next/standalone $out/share/homepage/
     cp -r public $out/share/homepage/public
-
-    mkdir -p $out/share/homepage/.next
     cp -r .next/static $out/share/homepage/.next/static
-
-    ln -s /var/cache/nextjs-app $out/share/homepage/.next/cache
 
     chmod +x $out/share/homepage/server.js
 
-    makeWrapper $out/share/homepage/server.js $out/bin/ricardo_openmesh \
-      --set-default PORT 3000 \
-      --set-default HOSTNAME 0.0.0.0 \
-      --set NODE_TLS_REJECT_UNAUTHORIZED 0 \
-      --set SSL_CERT_FILE ${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt
+    makeWrapper ${pkgs.nodejs_20}/bin/node $out/bin/ricardo_openmesh \
+      --add-flags "$out/share/homepage/server.js" \
+      --set PORT 3000 \
+      --set HOSTNAME "0.0.0.0"
 
     runHook postInstall
   '';
